@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension'
 
-import App from './containers/App';
+import App from './components/App';
 import Reducers from './reducers';
 
 

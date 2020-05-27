@@ -19,13 +19,11 @@ class Login extends React.Component {
 
     onChange = (event) => {
         const {name,value} = event.target
-        console.log(this.state)
         this.setState({[name]:value})
     }
 
 
     render(){
-        console.log(this.state)
         return(
             <form onSubmit={this.onSubmit} className='text-center p-4'>
                 {renderInputField('Username','username','text',this.onChange,this.state.username,null,'5')}

@@ -2,6 +2,7 @@ import React from 'react';
 import renderInputField from './renderInputField';
 import {signupFormSubmit} from '../../actions';
 import { connect } from 'react-redux';
+import djangoBackend from '../../apis/djangoBackend';
 
 
 class Signup extends React.Component {
@@ -33,11 +34,30 @@ class Signup extends React.Component {
     onChange = (event) => {
         const {name,value} = event.target
         const errors={}
-        console.log(event.target)
+
 
         switch(name){                   //Changing errors object based on user input.
             case 'username':    
-                errors.username=value.length>4?'':'Username must contain atleast 5 characters.'
+                if(value.length>4){
+                    const checkUniqueUsername = async ()=>{ //instantly checks whether username is unique 
+                        const response = await djangoBackend.post('/api/users/checkUsername',{username:value})
+                        
+                        if(response.data.unique){
+                            errors.username=''
+                        }else{
+                            errors.username='Username already exists.'
+                        }
+                        this.setState({errors:{...this.state.errors,...errors}})
+                        if(errors[name]){                       //Changing background color of username input based on uniqueness of username
+                            document.querySelector('input').style.backgroundColor='white' //cannot use event object here due to promise object
+                        }else{
+                            document.querySelector('input').style.backgroundColor='#AFFFAF'
+                        }
+                    }
+                    checkUniqueUsername()
+                }else{
+                    errors.username='Username must contain atleast 5 characters.'
+                }
                 break
             case 'password':
                 if(value.length<8){
@@ -63,7 +83,6 @@ class Signup extends React.Component {
         }
 
         this.setState({errors:{...(this.state.errors),...errors},[name]:value})
-
         if(errors[name]){                       //Changing background color based on errors
             event.target.style.backgroundColor='white'
         }else{
@@ -73,7 +92,6 @@ class Signup extends React.Component {
 
 
     render(){
-        console.log(this.state)
         return(
             <form onSubmit={this.onSubmit} noValidate className='text-center px-3 py-4'>
                 {renderInputField('Username','username','text',this.onChange,this.state.username,this.state.errors.username)}
@@ -97,6 +115,7 @@ const formValidate = errors => {
     })
     return valid;
 }
+
 
 const changeBgColorIfErrors = (event,errors)=>{
     const lightRedBg='#FF7575'
