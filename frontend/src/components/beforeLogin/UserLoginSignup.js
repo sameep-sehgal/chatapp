@@ -10,9 +10,9 @@ class UserLoginSignup extends React.Component{
     constructor(){
         super()
         const token=localStorage.getItem('token')
-        // if(token){
-        //     history.push('/')
-        // }
+        if(token){
+            history.push('/')
+        }
     }
 
     render(){

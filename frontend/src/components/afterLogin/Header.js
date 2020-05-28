@@ -21,7 +21,11 @@ class Header extends React.Component{
         let error=''
         if(value.length>4){ //Validating username
             const checkUniqueUsername = async ()=>{ //instantly checks whether username is unique 
-                const response = await djangoBackend.post('/api/users/checkUsername',{username:value})
+                const response = await djangoBackend.post('/api/users/checkUsername',{username:value},{
+                    headers:{
+                        Authorization:`Token ${localStorage.getItem('token')}`
+                    }
+                })
                 
                 if(response.data.unique){
                     error=''
@@ -138,6 +142,7 @@ class Header extends React.Component{
                     className='btn btn-warning py-0 mx-4'
                     onClick={()=>{
                         localStorage.removeItem('token');
+                        localStorage.removeItem('currentChat');
                         history.push('/user')
                     }}
                 >Logout</button>

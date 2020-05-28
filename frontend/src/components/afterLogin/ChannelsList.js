@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {fetchChannels} from '../../actions';
+import {fetchChannels,setCurrentChat} from '../../actions';
 import { Link } from 'react-router-dom';
 
 
@@ -15,9 +15,16 @@ class ChannelsList extends React.Component{
             <div className="list-group" style={{minWidth:'15vw'}}>
                 {this.props.channelsList.map(channel=>{
                     return(
-                        <Link type="button" className="list-group-item list-group-item-action p-1 overflow-auto text-nowrap" key={channel.id}>
+                        <button 
+                            type="button" 
+                            className="list-group-item list-group-item-action p-1 overflow-auto text-nowrap" key={channel.id}
+                            onClick={()=>{
+                                localStorage.setItem('currentChat',channel.name)
+                                this.props.setCurrentChat(channel.name)
+                            }}
+                        >
                             {channel.name}
-                        </Link>
+                        </button>
                     )
                 }
                 )}
@@ -43,4 +50,4 @@ const mapStateToProps=(state)=>{
     }
 }
 
-export default connect(mapStateToProps,{fetchChannels})(ChannelsList);
+export default connect(mapStateToProps,{fetchChannels,setCurrentChat})(ChannelsList);

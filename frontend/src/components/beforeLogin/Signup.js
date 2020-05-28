@@ -12,7 +12,7 @@ class Signup extends React.Component {
         passwordAgain:'',
         errors:{
             username:'Username must contain atleast 5 characters.',
-            password:'Password must be atleast 8 characters(include numbers).',
+            password:'Password must be atleast 9 characters.',
             passwordAgain:''
         }
     }
@@ -60,12 +60,8 @@ class Signup extends React.Component {
                 }
                 break
             case 'password':
-                if(value.length<8){
-                    errors.password='Password must be atleast 8 characters(include numbers).'
-                    break
-                }
-                if(value.length>=8){
-                    errors.password= containsNumber(value)?'':'Password must include atleast 1 numerical value(0-9)'
+                if(value.length<9){
+                    errors.password='Password must be atleast 9 characters.'
                     break
                 }
                 errors.password='';

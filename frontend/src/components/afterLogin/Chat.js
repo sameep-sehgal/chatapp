@@ -6,6 +6,7 @@ import ChannelsList from './ChannelsList';
 import UsersList from './UsersList';
 import Header from './Header';
 import history from '../../history'
+import ChatBox from './ChatBox';
 
 
 class Chat extends React.Component{
@@ -16,6 +17,7 @@ class Chat extends React.Component{
             history.push('./user')
         }
     }
+    
     componentDidMount(){
         this.props.fetchUser()
     }
@@ -30,7 +32,7 @@ class Chat extends React.Component{
                     </div>
                 </div>
                 <div className='row'>
-                    <div className="col-4 pb-3" style={{minWidth:'25vw',borderRight:'solid black 1px'}}>
+                    <div className="col-4 pb-3 pr-0 pl-1 mb-0" style={{minWidth:'25vw',borderRight:'solid black 1px'}}>
                         <div className='container'>
                             <div className='row justify-content-center '>
                                 <div className='col-12'>
@@ -52,9 +54,7 @@ class Chat extends React.Component{
                         
                     </div>
                     <div className="col-8">
-                        <div className='row justify-content-center'>
-                            <h1>Messages</h1>
-                        </div>
+                        <ChatBox/>
                     </div>
                 </div>
             </React.Fragment>
