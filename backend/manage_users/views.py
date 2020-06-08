@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view,permission_classes,authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
@@ -42,16 +43,19 @@ def verify_username(request):
 
 
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def fetch_username(request):
     if request.method == 'POST':
         token=request.data.get('token',None)
         user=Token.objects.get(key=token).user
-        return Response({'username':user.username})
+        data={'username':user.username,'id':user.id}
+        return Response(data)
 
 
     
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def change_username(request):
     if request.method == 'POST':
@@ -60,11 +64,12 @@ def change_username(request):
         user=User.objects.get(username=username)
         user.username=newUsername
         user.save()
-        return Response({'username':user.username})
+        return Response({'username':user.username,'id':user.id})
 
 
 
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def change_password(request):
     if request.method == 'POST':
@@ -73,11 +78,12 @@ def change_password(request):
         user=User.objects.get(username=username)
         user.set_password(newPassword)
         user.save()
-        return Response({'username':user.username})
+        return Response({'username':user.username,'id':user.id})
 
 
 
 @api_view(['GET'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def users(request):
     if request.method == 'GET':

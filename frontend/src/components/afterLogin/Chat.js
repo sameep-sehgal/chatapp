@@ -22,6 +22,16 @@ class Chat extends React.Component{
         this.props.fetchUser()
     }
 
+
+    renderChatBox = () => {
+        if(this.props.currentChat.name){
+            return <ChatBox/>
+        }else{
+            return <h4>Select a Chat.</h4>
+        }
+    }
+
+
     render(){
         console.log(localStorage.getItem('token'))
         return(
@@ -54,7 +64,7 @@ class Chat extends React.Component{
                         
                     </div>
                     <div className="col-8">
-                        <ChatBox/>
+                        {this.renderChatBox()}
                     </div>
                 </div>
             </React.Fragment>
@@ -65,7 +75,7 @@ class Chat extends React.Component{
 
 const mapStateToProps=(state)=>{
     return{
-
+        currentChat:state.currentChat
     }
 }
 

@@ -127,14 +127,4 @@ const changeBgColorIfErrors = (event,errors)=>{
         }
 }
 
-const containsNumber = (str) => {
-    //Checks whether string contains a number or not
-    for(let char of str){
-        if(isFinite(char)===true){
-            return true
-        }
-    }
-    return false
-}
-
 export default connect(null,{signupFormSubmit})(Signup);

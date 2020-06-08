@@ -19,8 +19,9 @@ class UsersList extends React.Component{
                             type="button" 
                             className="list-group-item list-group-item-action p-1 overflow-auto text-nowrap" key={user.username}
                             onClick={()=>{
+                                localStorage.setItem('isChannel',false)
                                 localStorage.setItem('currentChat',user.username)
-                                this.props.setCurrentChat(user.username)
+                                this.props.setCurrentChat({name:user.username,isChannel:false})
                             }}
                         >
                             {user.username}
